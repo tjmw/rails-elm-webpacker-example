@@ -1,7 +1,14 @@
-module Main exposing (main)
+port module Main exposing (main)
 
-import Html exposing (Html, h1, text)
-import Html.Attributes exposing (style)
+import Html exposing (Html, button, div, h1, text)
+import Html.Events exposing (onClick)
+
+
+-- PORTS
+
+
+port somethingHappened : () -> Cmd msg
+
 
 
 -- MODEL
@@ -21,7 +28,7 @@ type alias Flags =
 -- INIT
 
 
-init : Flags -> ( Model, Cmd Message )
+init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( { name = flags.name }, Cmd.none )
 
@@ -30,34 +37,42 @@ init flags =
 -- VIEW
 
 
-view : Model -> Html Message
+view : Model -> Html Msg
 view model =
-    h1 [ style [ ( "display", "flex" ), ( "justify-content", "center" ) ] ]
-        [ text <| "Name '" ++ model.name ++ "' passed to Elm" ]
+    div []
+        [ h1 [] [ text <| "Name '" ++ model.name ++ "' passed to Elm" ]
+        , button [ onClick ButtonClicked ] [ text "Click me" ]
+        ]
 
 
 
--- MESSAGE
+-- MSG
 
 
-type Message
-    = None
+type Msg
+    = ButtonClicked
+    | None
 
 
 
 -- UPDATE
 
 
-update : Message -> Model -> ( Model, Cmd Message )
-update message model =
-    ( model, Cmd.none )
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        ButtonClicked ->
+            ( model, somethingHappened () )
+
+        _ ->
+            ( model, Cmd.none )
 
 
 
 -- SUBSCRIPTIONS
 
 
-subscriptions : Model -> Sub Message
+subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
@@ -66,7 +81,7 @@ subscriptions model =
 -- MAIN
 
 
-main : Program Flags Model Message
+main : Program Flags Model Msg
 main =
     Html.programWithFlags
         { init = init

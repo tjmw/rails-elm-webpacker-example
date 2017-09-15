@@ -7,4 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const component = Elm.Main.embed(target, {
     name: name,
   });
+
+  component.ports.somethingHappened.subscribe(() => {
+    console.log("Something happened");
+  });
 })
