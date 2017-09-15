@@ -1,0 +1,5 @@
+<% content_for :tail_scripts do %>
+  <%= javascript_pack_tag "my_component" %>
+<% end %>
+
+<%= content_tag :div, nil, id: "my-elm-container", data: { name: @name } %>
