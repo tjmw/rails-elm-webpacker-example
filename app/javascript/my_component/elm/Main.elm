@@ -46,7 +46,7 @@ init flags =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text <| "Name '" ++ model.name ++ "' passed to Elm" ]
+        [ h1 [] [ text <| "Product name '" ++ model.name ++ "' passed to Elm" ]
         , button [ onClick ButtonClicked ] [ text "Click me" ]
         ]
 
