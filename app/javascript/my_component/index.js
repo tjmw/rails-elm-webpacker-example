@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     name: name,
   }));
 
-  component.ports.somethingHappened.subscribe(() => {
-    console.log("Something happened");
+  component.ports.quantityChanged.subscribe((newQuantity) => {
+    console.log(`Quantity changed to: ${newQuantity}`);
   });
 })

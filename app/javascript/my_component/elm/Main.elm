@@ -1,13 +1,14 @@
 port module Main exposing (main)
 
 import Html exposing (Html, button, div, h1, text)
+import Html.Attributes exposing (disabled)
 import Html.Events exposing (onClick)
 
 
 -- PORTS
 
 
-port somethingHappened : () -> Cmd msg
+port quantityChanged : Int -> Cmd msg
 
 
 
@@ -16,6 +17,7 @@ port somethingHappened : () -> Cmd msg
 
 type alias Model =
     { name : String
+    , quantity : Int
     , apiRoot : String
     }
 
@@ -34,6 +36,7 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( { name = flags.name
       , apiRoot = flags.api_root
+      , quantity = 0
       }
     , Cmd.none
     )
@@ -47,7 +50,9 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text <| "Product name '" ++ model.name ++ "' passed to Elm" ]
-        , button [ onClick ButtonClicked ] [ text "Click me" ]
+        , div [] [ text <| "Quantity: " ++ toString model.quantity ]
+        , button [ onClick DecrementClicked, disabled <| model.quantity == 0 ] [ text "-" ]
+        , button [ onClick IncrementClicked ] [ text "+" ]
         ]
 
 
@@ -56,7 +61,8 @@ view model =
 
 
 type Msg
-    = ButtonClicked
+    = DecrementClicked
+    | IncrementClicked
     | None
 
 
@@ -67,11 +73,19 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ButtonClicked ->
-            ( model, somethingHappened () )
+        DecrementClicked ->
+            updateQuantity model <| max 0 <| model.quantity - 1
+
+        IncrementClicked ->
+            updateQuantity model <| model.quantity + 1
 
         _ ->
             ( model, Cmd.none )
+
+
+updateQuantity : Model -> Int -> ( Model, Cmd Msg )
+updateQuantity model quantity =
+    ( { model | quantity = quantity }, quantityChanged quantity )
 
 
 
