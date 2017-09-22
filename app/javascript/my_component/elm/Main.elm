@@ -16,11 +16,13 @@ port somethingHappened : () -> Cmd msg
 
 type alias Model =
     { name : String
+    , apiRoot : String
     }
 
 
 type alias Flags =
     { name : String
+    , api_root : String
     }
 
 
@@ -30,7 +32,11 @@ type alias Flags =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { name = flags.name }, Cmd.none )
+    ( { name = flags.name
+      , apiRoot = flags.api_root
+      }
+    , Cmd.none
+    )
 
 
 
