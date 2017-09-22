@@ -1,24 +1,32 @@
-# README
+# Rails 5.1 Example App with Webpacker and Elm running on Heroku
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## What is this?
 
-Things you may want to cover:
+This is an example [Rails] 5.1 app with [Elm] on the front-end handled by
+[Webpacker], running on [Heroku].
 
-* Ruby version
+[Rails]: http://rubyonrails.org
+[Elm]: http://elm-lang.org/
+[Webpacker]: https://github.com/rails/webpacker
+[Heroku]: https://www.heroku.com/
 
-* System dependencies
+## Deploying to Heroku
 
-* Configuration
+To deploy to Heroku, create a Heroku app, configure the buildpacks and push:
 
-* Database creation
+```
+$ heroku git:remote -a <Heroku app name>
+$ heroku buildpacks:add heroku/nodejs
+$ heroku buildpacks:add heroku/ruby
+$ git push heroku master
+```
 
-* Database initialization
+## Running Locally
 
-* How to run the test suite
+```
+$ bundle
+$ yarn install
+$ foreman start
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Now you can visit [`localhost:5000`](http://localhost:5000) from your browser.
