@@ -11,6 +11,9 @@ import Html.Events exposing (onClick)
 port quantityChanged : Int -> Cmd msg
 
 
+port setQuantity : (Int -> msg) -> Sub msg
+
+
 
 -- MODEL
 
@@ -63,6 +66,7 @@ view model =
 type Msg
     = DecrementClicked
     | IncrementClicked
+    | SetQuantity Int
     | None
 
 
@@ -79,6 +83,9 @@ update msg model =
         IncrementClicked ->
             updateQuantity model <| model.quantity + 1
 
+        SetQuantity quantity ->
+            updateQuantity model <| max 0 quantity
+
         _ ->
             ( model, Cmd.none )
 
@@ -94,7 +101,7 @@ updateQuantity model quantity =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    setQuantity SetQuantity
 
 
 

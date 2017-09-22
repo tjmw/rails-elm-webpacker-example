@@ -17,4 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
   component.ports.quantityChanged.subscribe((newQuantity) => {
     console.log(`Quantity changed to: ${newQuantity}`);
   });
+
+  const resetButton = document.getElementById("reset-button");
+  resetButton.addEventListener("click", (e) => {
+    component.ports.setQuantity.send(0);
+    e.preventDefault();
+  });
 })
